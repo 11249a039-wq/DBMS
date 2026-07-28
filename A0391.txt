@@ -1,0 +1,283 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Tue Jul 28 15:05:14 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A039@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> create Table student1 as select * from student;
+create Table student1 as select * from student
+                                       *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> create table student(
+  2  regno Varchar(20)
+  3  Name char(10)
+  4
+SQL> create table student(
+  2  regno Varchar(20),Name char(10)
+  3  Year Number(5),
+  4  couse char(10));
+Year Number(5),
+*
+ERROR at line 3:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table student(
+  2  regno Varchar(20),
+  3  Name char(10),
+  4  Year Number(5),
+  5  course char(10));
+
+Table created.
+
+SQL> desc student
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(20)
+ NAME                                               CHAR(10)
+ YEAR                                               NUMBER(5)
+ COURSE                                             CHAR(10)
+
+SQL> create Table student1as select * from student;
+create Table student1as select * from student
+                        *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create Table student1 as select * from student;
+
+Table created.
+
+SQL> desc student1
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(20)
+ NAME                                               CHAR(10)
+ YEAR                                               NUMBER(5)
+ COURSE                                             CHAR(10)
+
+SQL> create Table student2 as select regno,name,year,course from student;
+
+Table created.
+
+SQL> desc student2
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(20)
+ NAME                                               CHAR(10)
+ YEAR                                               NUMBER(5)
+ COURSE                                             CHAR(10)
+
+SQL> insert into student values(55,'mounika',3,'cse);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into student values(39,'mounika' ,3,'cse');
+
+1 row created.
+
+SQL> select * from student
+  2  select * from student;
+select * from student
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from student;
+
+REGNO                NAME             YEAR COURSE
+-------------------- ---------- ---------- ----------
+39                   mounika             3 cse
+
+SQL> create table student3 as select * from student where 1>2;
+
+Table created.
+
+SQL> desc student3
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(20)
+ NAME                                               CHAR(10)
+ YEAR                                               NUMBER(5)
+ COURSE                                             CHAR(10)
+
+SQL> create table student4 as select * from student;
+
+Table created.
+
+SQL> select * from student4
+  2  select * from student4
+  3
+SQL> select * from student4;
+
+REGNO                NAME             YEAR COURSE
+-------------------- ---------- ---------- ----------
+39                   mounika             3 cse
+
+SQL> create table student6 as select regno,name,year,course from student;
+
+Table created.
+
+SQL> create table student6 as select regno,name,year,course from student;
+create table student6 as select regno,name,year,course from student
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STUDENT6                       TABLE
+STUDENT4                       TABLE
+STUDENT3                       TABLE
+STUDENT2                       TABLE
+STUDENT1                       TABLE
+STUDENT                        TABLE
+
+6 rows selected.
+
+SQL> create table student7 as select regno,name,year,course from student;
+
+Table created.
+
+SQL> select * from student7;
+
+REGNO                NAME             YEAR COURSE
+-------------------- ---------- ---------- ----------
+39                   mounika             3 cse
+
+SQL> alter table student modify name Varchar2(20);
+
+Table altered.
+
+SQL> altertable student7 rename to student8;
+SP2-0734: unknown command beginning "altertable..." - rest of line ignored.
+SQL> alter table student7 rename to student8;
+
+Table altered.
+
+SQL> insert into student values(9,"ammu',3,'cse');
+ERROR:
+ORA-01740: missing double quote in identifier
+
+
+SQL> insert into student values(9,'ammu',3,'cse');
+
+1 row created.
+
+SQL> select * from student;
+
+REGNO                NAME                       YEAR COURSE
+-------------------- -------------------- ---------- ----------
+39                   mounika                       3 cse
+9                    ammu                          3 cse
+
+SQL> insert into student4 values(&regno,'&name','&year);
+Enter value for regno: 39
+Enter value for name: mounika
+Enter value for year: 3
+old   1: insert into student4 values(&regno,'&name','&year)
+new   1: insert into student4 values(39,'mounika','3)
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into student4 values(&regno,'&name','&year');
+Enter value for regno: 9
+Enter value for name: ammu
+Enter value for year: 3
+old   1: insert into student4 values(&regno,'&name','&year')
+new   1: insert into student4 values(9,'ammu','3')
+insert into student4 values(9,'ammu','3')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into student4 values(&regno,'&name',&year,'&course');
+Enter value for regno: 39
+Enter value for name: mounika
+Enter value for year: 3
+Enter value for course: cse
+old   1: insert into student4 values(&regno,'&name',&year,'&course')
+new   1: insert into student4 values(39,'mounika',3,'cse')
+
+1 row created.
+
+SQL> select * from student4;
+
+REGNO                NAME             YEAR COURSE
+-------------------- ---------- ---------- ----------
+39                   mounika             3 cse
+39                   mounika             3 cse
+
+SQL> insert into student7(regno,name,year,couse)select regno,name,year,course from student;
+insert into student7(regno,name,year,couse)select regno,name,year,course from student
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> insert into student6(regno,name,year,couse)select regno,name,year,course from student;
+insert into student6(regno,name,year,couse)select regno,name,year,course from student
+                                     *
+ERROR at line 1:
+ORA-00904: "COUSE": invalid identifier
+
+
+SQL> insert into student7(regno,name,year,course)select regno,name,year,course from student;
+insert into student7(regno,name,year,course)select regno,name,year,course from student
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> insert into studen47(regno,name,year,course)select regno,name,year,course from student;
+insert into studen47(regno,name,year,course)select regno,name,year,course from student
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> insert into student4(regno,name,year,course)select regno,name,year,course from student;
+
+2 rows created.
+
+SQL> select * from student4
+  2
+SQL> select * from student4;
+
+REGNO                NAME             YEAR COURSE
+-------------------- ---------- ---------- ----------
+39                   mounika             3 cse
+39                   mounika             3 cse
+39                   mounika             3 cse
+9                    ammu                3 cse
+
+SQL> drop table student5
+  2
+SQL> drop table student5;
+drop table student5
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> drop table student4;
+
+Table dropped.
+
+SQL>
